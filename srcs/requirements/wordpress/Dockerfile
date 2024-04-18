@@ -1,5 +1,5 @@
 # WORDPRESS Dockerfile
-FROM debian:buster-20230904
+FROM debian:bullseye-20240408
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -10,4 +10,6 @@ RUN apt update && \
 
 COPY ./tools/wordpress_setup /run.sh
 
-CMD ["/run.sh"]
+RUN chmod +x /run.sh
+
+ENTRYPOINT [ "/run.sh" ]
