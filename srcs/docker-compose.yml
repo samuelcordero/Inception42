@@ -1,4 +1,4 @@
-version: "3.5"
+version: "3"
 
 volumes:
         wordpress:
@@ -15,10 +15,6 @@ volumes:
                         device: ${DB_DIR}
                         o: bind
                         type: none
-
-networks:
-  inception:
-    name: inception
 
 services:
   nginx:
@@ -57,3 +53,7 @@ services:
     networks:
       - inception
     restart: always
+
+networks:
+  inception:
+    name: inception

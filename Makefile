@@ -6,7 +6,7 @@ COMPOSE_FILE := srcs/docker-compose.yml
 # Define the name of your Docker Compose project (change if necessary)
 PROJECT_NAME := inception
 
-.PHONY: up down build start stop restart logs ps prune session-mdb session-wp session-nginx
+.PHONY: up down build start stop restart logs ps prune session-mdb session-wp session-nginx rm-volumes
 
 up::
 	docker-compose -f $(COMPOSE_FILE) -p $(PROJECT_NAME) up -d
@@ -44,3 +44,6 @@ session-wp::
 
 session-nginx::
 	docker-compose -f srcs/docker-compose.yml -p inception exec nginx bash
+
+rm-volumes::
+	$(RM) /home/samu/data/db/* /home/samu/data/wp/*

@@ -6,7 +6,7 @@ RUN apt -y update && apt install -y nginx && apt install openssl -y
 
 
 
-# COPY ./conf/default /etc/nginx/sites-available/
+COPY ./conf/conf /etc/nginx/sites-available/
 
 COPY ./tools/nginx_setup /run.sh
 

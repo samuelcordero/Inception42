@@ -1,15 +1,20 @@
 #!/bin/bash
 
-service mariadb start 
+chown -R mysql: /var/lib/mysql
+chmod 777 /var/lib/mysql
 
-echo "CREATE DATABASE IF NOT EXISTS $db1_name ;" > db1.sql
-echo "CREATE USER IF NOT EXISTS '$db1_user'@'%' IDENTIFIED BY '$db1_pwd' ;" >> db1.sql
-echo "GRANT ALL PRIVILEGES ON $db1_name.* TO '$db1_user'@'%' ;" >> db1.sql
-echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '$root_pass' ;" >> db1.sql
-echo "FLUSH PRIVILEGES;" >> db1.sql
-
-mysql -u $db1_user -p $db1_pwd < db1.sql
-
-service mariadb stop
-
-mariadbd
+if [ ! -d "/var/lib/mysql/$DB_NAME" ]; then
+  rm -f /db1.sql
+  echo "CREATE DATABASE IF NOT EXISTS $DB_NAME ;" > /db1.sql
+  echo "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PWD' ;" >> /db1.sql
+  echo "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' WITH GRANT OPTION;" >> /db1.sql
+  echo "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'localhost' WITH GRANT OPTION;" >> /db1.sql
+  echo "FLUSH PRIVILEGES;" >> /db1.sql
+  echo "DROP USER 'root'@'localhost';" >> /db1.sql
+  echo "CREATE USER 'root'@'localhost' IDENTIFIED BY '$ROOT_PASS';" >> /db1.sql
+  echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;" >> /db1.sql
+  echo "FLUSH PRIVILEGES;" >> /db1.sql
+  mariadbd-safe --init-file=/db1.sql  > /dev/null 2>&1
+else
+  mariadbd-safe >/dev/null 2>&1
+fi

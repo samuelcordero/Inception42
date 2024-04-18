@@ -9,9 +9,10 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 
-COPY ./50-server.cnf /etc/mysql/my.cnf
+COPY ./conf/50-server.cnf /etc/mysql/my.cnf
+COPY ./conf/50-server.cnf /etc/my.cnf
 COPY ./tools/mysql_setup /run.sh
 
 RUN chmod +x /run.sh
 
-ENTRYPOINT [ "/run.sh" ]
+CMD [ "/run.sh" ]
