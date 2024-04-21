@@ -37,13 +37,13 @@ prune::
 	docker volume ls -q | xargs -I {} docker volume rm {}
 
 session-mdb::
-	docker-compose -f srcs/docker-compose.yml -p inception exec mariadb bash
+	docker-compose -f $(COMPOSE_FILE) -p $(PROJECT_NAME) exec mariadb bash
 
 session-wp::
-	docker-compose -f srcs/docker-compose.yml -p inception exec wordpress bash
+	docker-compose -f $(COMPOSE_FILE) -p $(PROJECT_NAME) exec wordpress bash
 
 session-nginx::
-	docker-compose -f srcs/docker-compose.yml -p inception exec nginx bash
+	docker-compose -f $(COMPOSE_FILE) -p $(PROJECT_NAME) exec nginx bash
 
 rm-volumes::
-	$(RM) /home/samu/data/db/* /home/samu/data/wp/*
+	$(RM) -r /home/samu/data/db/* /home/samu/data/wp/*
