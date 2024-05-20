@@ -6,9 +6,16 @@ COMPOSE_FILE := srcs/docker-compose.yml
 # Define the name of your Docker Compose project (change if necessary)
 PROJECT_NAME := inception
 
-.PHONY: up down build start stop restart logs ps prune session-mdb session-wp session-nginx rm-volumes
+DATA = /home/$(USER)/data
+DATAWP = /home/$(USER)/data/db
+DATADB = /home/$(USER)/data/wp
 
-up::
+
+
+
+.PHONY: up down build start stop restart logs ps prune session-mdb session-wp session-nginx rm-volumes $(DATA) $(DATADB) $(DATAWP)
+
+up:: $(DATA) $(DATADB) $(DATAWP)
 	docker-compose -f $(COMPOSE_FILE) -p $(PROJECT_NAME) up -d
 
 down::
@@ -46,4 +53,13 @@ session-nginx::
 	docker-compose -f $(COMPOSE_FILE) -p $(PROJECT_NAME) exec nginx bash
 
 rm-volumes::
-	$(RM) -r /home/samu/data/db/* /home/samu/data/wp/*
+	$(RM) -r /home/$(USER)/data/db/* /home/$(USER)/data/wp/*
+
+$(DATA):
+	@mkdir $(DATA)
+	
+$(DATADB):
+	@mkdir $(DATADB)
+
+$(DATAWP):
+	@mkdir $(DATAWP)
