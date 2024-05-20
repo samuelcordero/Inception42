@@ -56,10 +56,10 @@ rm-volumes::
 	$(RM) -r /home/$(USER)/data/db/* /home/$(USER)/data/wp/*
 
 $(DATA):
-	@mkdir $(DATA)
+	@mkdir -p $(DATA)
 	
 $(DATADB):
-	@mkdir $(DATADB)
+	@mkdir -p $(DATADB)
 
 $(DATAWP):
-	@mkdir $(DATAWP)
+	@mkdir -p $(DATAWP)
